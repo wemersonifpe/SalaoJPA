@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menugeral.xhtml" />
+        
+        <p:growl id="gro" life="4000" />
+        <h:form id="formCadFuncionario" >
+            <p:commandButton value="cadastrar" oncomplete="PF('widDialCadastroFuncionario').show()"/>
+            <p:separator/>
+            <p:dataTable id="tableFuncionario" value="#{usuarioController.listarAction()}"
+                         var="item" rowKey="#{item.id_usuario}" paginator="true" rows="5" selectionMode="single">
+                <p:column headerText="Código">
+                    #{item.id_usuario}
+                </p:column>
+                <p:column headerText="Nome">
+                    #{item.id_usuario}
+                </p:column>
+                <p:column headerText="Funcao">
+                    #{item.login}
+                </p:column>
+                <p:column headerText="operações">
+                    <p:commandButton icon="ui-icon-search" oncomplete="PF('widDialVisualizaFuncionario').show()" 
+                                     update=":formCadFuncionario:dialVisualizaFuncionario">
+                        <f:setPropertyActionListener value="#{item}" target="#{usuarioController.cadUsuario}"/>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('widDialAlterarFuncionario').show()"
+                                     update=":dialAlterarFuncionario">
+                        <f:setPropertyActionListener value="#{item}" target="#{usuarioController.cadUsuario}"/>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" action="#{usuarioController.deletar(usuarioController.cadUsuario)}" update=":formCadFuncionario :gro">
+                        <f:setPropertyActionListener value="#{item}" target="#{usuarioController.cadUsuario}"/>
+                        <p:confirm header="Atenção" message="Deseja realmente deletar o registro!" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+             <p:dialog id="dialVisualizaFuncionario" visible="false" modal="true" header="Funcionario cadastrado"
+                      resizable="false" widgetVar="widDialVisualizaFuncionario">
+                <p:panelGrid columns="2">
+                    <h:outputText value="Código:"/>
+                    <h:outputText value="#{usuarioController.cadUsuario.id_usuario}"/>
+                    
+                    <h:outputText value="Nome:"/>
+                    <h:outputText value="#{usuarioController.cadUsuario.nome}"/>
+                    
+                    <h:outputText value="Função:"/>
+                    <h:outputText value="#{usuarioController.cadUsuario.login}"/>
+                </p:panelGrid>
+            </p:dialog>
+            
+        </h:form>
+        
+        <p:dialog id="dialCadastroFuncionario" visible="false" modal="true" resizable="false"
+                  widgetVar="widDialCadastroFuncionario">
+            <h:form id="formDialCadastro">
+                <p:panelGrid columns="3">
+                    <h:outputText value="Nome*:"/>
+                    <p:inputText id="txtNome" value="#{usuarioController.cadUsuario.nome}" required="true"
+                                 requiredMessage="Seu fresco! Tá faltando o nome!"/>
+                    <p:message for="txtNome" />
+                    
+                    <h:outputText  value="Função*:"/>
+                    <p:inputText id="txtFuncao" value="#{usuarioController.cadUsuario.login}" required="true"
+                                 requiredMessage="Tá faltando o Função!"/>
+                    <p:message for="txtFuncao"/>
+                </p:panelGrid>
+                <p:commandButton value="cadastrar" action="#{usuarioController.cadastrar()}"
+                                 update=":formCadFuncionario :gro" oncomplete="PF('widDialCadastroFuncionario').hide()">
+                    <p:confirm header="Atenção" message="Deseja realmente cadastrar?" />
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+        
+        <p:dialog id="dialAlterarFuncionario" visible="false" modal="true" resizable="false"
+                  widgetVar="widDialAlterarFuncionario">
+            <h:form id="formDialAltera">
+                <p:panelGrid columns="3">
+                    <h:outputText value="Nome*:"/>
+                    <p:inputText id="txtNome2" value="#{usuarioController.cadUsuario.nome}" required="true"
+                                 requiredMessage="Seu fresco! Tá faltando o nome!"/>
+                    <p:message for="txtNome2" />
+                    
+                    <h:outputText  value="Função*:"/>
+                    <p:inputText id="txtFuncao2" value="#{usuarioController.cadUsuario.login}" required="true"
+                                 requiredMessage="Tá faltando o Função!"/>
+                    <p:message for="txtFuncao2"/>
+                </p:panelGrid>
+                <p:commandButton value="cadastrar" action="#{usuarioController.alterar(usuarioController.cadUsuario)}"
+                                 update=":formCadFuncionario :gro" oncomplete="PF('widDialAlterarFuncionario').hide()">
+                    <p:confirm header="Atenção" message="Deseja realmente alterar?" />
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+        
+        <p:confirmDialog  id="dialConfirm" global="true" widgetVar="widDialConfirma" >
+            <h:form>
+                <p:commandButton value="sim" styleClass="ui-confirmdialog-yes" type="button" icon="ui-icon-check"/>
+                <p:commandButton value="não" styleClass="ui-confirmdialog-no" type="button" icon="ui-icon-close"/>
+            </h:form>    
+        </p:confirmDialog>
+        
+    </h:body>
+</html>

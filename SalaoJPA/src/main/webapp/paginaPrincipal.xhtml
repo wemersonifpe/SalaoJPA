@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menugeral.xhtml"/>
+        <p:growl id="gro" showDetail="true"/>
+        <h:form id="formApresentaCli">
+            <p:dataTable id="tableCliente" var="item" value="#{usuarioController.listarAction()}"
+                         paginator="true" rows="5" rowKey="#{item.id_usuario}" selectionMode="single"
+                         selection="#{usuarioController.cadUsuario}">
+                
+                <f:facet name="header">
+                    Cliente Cadastrados
+                </f:facet>
+                <p:column headerText="Codigo" >
+                    #{item.id_usuario}
+                </p:column>
+                <p:column headerText="Nome" filterBy="#{item.nome}" >
+                    #{item.nome}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">CPF</f:facet>
+                    #{item.cpf}
+                </p:column>
+                <p:column headerText="Telefone" filterBy="#{item.login}">
+                    #{item.login}
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="visualizar" oncomplete="PF('widDialVisualizaCliente').show()"
+                             update="dialVisualizaCliente"/>
+            <p:commandButton value="alterar" action="alteracliente.xhtml"/>
+            <p:commandButton value="deletar" action="#{usuarioController.deletar(usuarioController.cadUsuario)}"
+                             update="tableCliente :gro">
+                <p:confirm header="Atenção" message="deseja realmente deletar" />
+            </p:commandButton>
+            
+            <p:dialog id="dialVisualizaCliente" visible="false" modal="true" header="cliente cadastrado"
+                      resizable="false" widgetVar="widDialVisualizaCliente">
+                <p:panelGrid columns="2">
+                    <h:outputText value="Código:"/>
+                    <h:outputText value="#{usuarioController.cadUsuario.id_usuario}"/>
+                    
+                    <h:outputText value="Nome:"/>
+                    <h:outputText value="#{usuarioController.cadUsuario.nome}"/>
+                    
+                    <h:outputText value="CPF:"/>
+                    <h:outputText value="#{usuarioController.cadUsuario.cpf}"/>
+                    
+                    <h:outputText value="e-mail:"/>
+                    <h:outputText value="#{usuarioController.cadUsuario.login}"/>
+                </p:panelGrid>
+            </p:dialog>
+            
+            <p:confirmDialog  id="dialConfirm" global="true" widgetVar="widDialConfirma" >
+                <p:commandButton value="sim" styleClass="ui-confirmdialog-yes" type="button" icon="ui-icon-check"/>
+                <p:commandButton value="não" styleClass="ui-confirmdialog-no" type="button" icon="ui-icon-close"/>
+            </p:confirmDialog>
+            
+        </h:form>
+    </h:body>
+</html>
+

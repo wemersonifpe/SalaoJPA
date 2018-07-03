@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="div-box">
+        <ui:include src="menugeral.xhtml"/>
+        <div class="container login">
+            <h:form class="form-signin">
+                <p:panel style="border-color: #993300">
+                <h2 class="form-signin-heading"><img src="Imagens/login.png"/></h2>
+                <p:growl id="gro" sticky="true" showDetail="true" showSummary="true"/>
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="Login*:"/>
+                    <p:inputText id="textLogin" binding="#{Login}" required="true" maxlength="20" requiredMessage="O Login precisa ser preenchido!"/>
+                    <br/>
+                    <p:outputLabel value="Senha*:"/>
+                    <p:password id="texteSenha" binding="#{Senha}" required="true" maxlength="10" requiredMessage="A Senha precisar ser preenchida!"/>
+                    <br/>
+                    <p:commandButton value="Logar" action="#{loginSalao.realizarLogin(Login.value, Senha.value)}"/>
+                </h:panelGrid>
+                </p:panel>
+            </h:form>
+            
+        </div>
+        </div>
+    </h:body>
+</html>
+

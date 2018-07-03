@@ -1,0 +1,6 @@
+br\com\ifpe\salaojpa\model\interfaces\InterfaceUsuario.class
+br\com\ifpe\salaojpa\model\implementacoes\RepositorioUsuarioImpIDB.class
+br\com\ifpe\salaojpa\model\dao\PersistenciaDao.class
+br\com\ifpe\salaojpa\model\entidades\Usuario_.class
+br\com\ifpe\salaojpa\model\interfaces\InterfaceGenerico.class
+br\com\ifpe\salaojpa\model\entidades\Usuario.class
